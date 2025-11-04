@@ -7,11 +7,254 @@ st.set_page_config(layout="wide")
 st.title("🎣 Gerador e Repositório de Ganchos v1.3")
 
 # --- BANCO DE DADOS DE GANCHOS (v1.3 - sem mudanças) ---
+# (Seu banco de dados completo de 11 categorias está aqui)
 HOOK_DATABASE = {
     "Declarações Impactantes e Provocativas": [
         {"text": "Tenho certeza de que você está cometendo esse erro agora...", "format": "Reels / Carrossel"},
         {"text": "Se você está fazendo isso, pare imediatamente.", "format": "Reels"},
-        # ... (Todo o resto do seu banco de dados de ganchos) ...
+        {"text": "Esqueça o que você aprendeu. Isso funciona.", "format": "Carrossel"},
+        {"text": "Isso pode ser a coisa mais importante que compartilho o ano todo.", "format": "Post Estático / Reels"},
+        {"text": "Isso mudou meus resultados da noite para o dia...", "format": "Reels (Storytelling)"},
+        {"text": "A solução mais simples é geralmente a melhor.", "format": "Carrossel"},
+        {"text": "A maioria das pessoas complica isso, mas é bem simples...", "format": "Carrossel"},
+        {"text": "Parece ilegal saber disso.", "format": "Reels"},
+        {"text": "Eu NÃO esperava por isso...", "format": "Reels / Post Estático"},
+        {"text": "O/A ____ que eu não esperava.", "format": "Post Estático"},
+        {"text": "Você precisa disso.", "format": "Post Estático"},
+        {"text": "Isso vai mudar sua vida.", "format": "Reels"},
+        {"text": "Isso vai explodir sua mente.", "format": "Reels"},
+        {"text": "Isso não é uma piada.", "format": "Post Estático"},
+        {"text": "Isso pode te chocar, mas...", "format": "Carrossel"},
+        {"text": "Alguém tinha que dizer...", "format": "Reels (Opinião)"},
+        {"text": "Este truque vai te economizar horas.", "format": "Reels (Hack)"},
+        {"text": "Esta dica vai explodir sua mente.", "format": "Reels"},
+        {"text": "Eu não sei se você está pronto(a) para ouvir isso!", "format": "Post Estático / Reels"},
+        {"text": "Isso vai mudar como você pensa sobre...", "format": "Carrossel"},
+        {"text": "Você precisa ouvir isso hoje...", "format": "Post Estático"},
+        {"text": "Isso não é um treinamento.", "format": "Reels"},
+        {"text": "Isso não pode ser real.", "format": "Reels"},
+        {"text": "A única coisa que odeio sobre [isso] mas que funciona.", "format": "Carrossel"},
+        {"text": "Não é sobre [isso], faça isso em vez disso.", "format": "Carrossel"},
+        {"text": "Você não pode esperar [isso] sem [isso].", "format": "Post Estático"},
+        {"text": "Eu pensei que [crença comum] estava certo, até que eu descobri [a verdade].", "format": "Carrossel"},
+        {"text": "Sua [área de atuação] está prestes a ser interrompida.", "format": "Reels / Post Estático"},
+        {"text": "Por que o [método tradicional] não funciona mais (e o que fazer).", "format": "Carrossel"},
+    ],
+    "Perguntas de Curiosidade": [
+        {"text": "Qual é a verdadeira razão pela qual você não está crescendo?", "format": "Carrossel"},
+        {"text": "Quer saber a estratégia que ninguém está falando sobre?", "format": "Reels"},
+        {"text": "Como seria finally alcançar [resultado desejado]?", "format": "Post Estático / Reels"},
+        {"text": "Por que isso sempre acontece com [público específico]?", "format": "Reels (Relatabilidade)"},
+        {"text": "Você está sabotando seu crescimento sem perceber?", "format": "Carrossel"},
+        {"text": "Você sabia ____?", "format": "Carrossel / Reels"},
+        {"text": "Quer saber algo louco?", "format": "Reels"},
+        {"text": "Por que não há mais pessoas falando sobre...", "format": "Carrossel"},
+        {"text": "Já se perguntou, ____?", "format": "Post Estático"},
+        {"text": "Quem mais faz isso?", "format": "Reels"},
+        {"text": "Você deveria [fazer isso ou aquilo]?", "format": "Carrossel (Comparativo)"},
+        {"text": "Isto ou aquilo?", "format": "Carrossel / Post Estático"},
+        {"text": "Podemos falar sobre [isso]?", "format": "Post Estático"},
+        {"text": "O que [seu nicho] e [algo aleatório] têm em comum?", "format": "Reels / Carrossel"},
+        {"text": "Você realmente precisa de [coisa cara] para [resultado]?", "format": "Carrossel"},
+    ],
+    "Resolução de Problemas e Hacks": [
+        {"text": "O truque que resolveu tudo de uma vez...", "format": "Reels"},
+        {"text": "Finalmente – uma maneira fácil de conseguir [resultado].", "format": "Carrossel"},
+        {"text": "Diga adeus a [problema] de uma vez por todas.", "format": "Reels"},
+        {"text": "Isso funcionou para mim quando nada mais deu certo.", "format": "Reels (Storytelling)"},
+        {"text": "Está lutando com [problema]? Faça isso no lugar.", "format": "Carrossel"},
+        {"text": "Como melhorar instantaneamente ____", "format": "Reels"},
+        {"text": "Como nunca ficar sem ____", "format": "Carrossel"},
+        {"text": "Truque rápido...", "format": "Reels"},
+        {"text": "Lutando com ____? Você vai querer salvar isso.", "format": "Carrossel / Post Estático"},
+        {"text": "Como ____ de graça.", "format": "Reels"},
+        {"text": "Economize tempo e dinheiro ao ____", "format": "Carrossel"},
+        {"text": "A melhor maneira de ____", "format": "Carrossel"},
+        {"text": "Como conseguir [isso] com meu sistema simples que [resolve isso]", "format": "Carrossel"},
+        {"text": "Como parar de [fazer isso] da maneira fácil", "format": "Reels"},
+        {"text": "A maneira preguiçosa de [aprender isso]", "format": "Reels"},
+        {"text": "A maneira simples de [fazer isso]", "format": "Carrossel"},
+        {"text": "O que fazer sobre [este problema]", "format": "Carrossel"},
+        {"text": "A maneira sem estresse de [alcançar isso]", "format": "Carrossel"},
+        {"text": "O sistema que eu uso para [resolver este problema]", "format": "Carrossel (Tutorial)"},
+        {"text": "Como [alcançar isso]", "format": "Carrossel / Reels"},
+        {"text": "Em vez de fazer [isso], faça [isso]", "format": "Reels (Comparativo)"},
+        {"text": "O que realmente importa para [resolver este problema]", "format": "Post Estático"},
+        {"text": "Como [alcançar isso] agora mesmo", "format": "Reels"},
+        {"text": "A estratégia que ninguém está usando para [alcançar isso]", "format": "Carrossel"},
+        {"text": "O guia de 1 minuto para [problema complexo].", "format": "Reels"},
+        {"text": "Não tem [ferramenta]? Use [alternativa grátis] no lugar.", "format": "Reels"},
+    ],
+    "Listas e Dicas Numeradas": [
+        {"text": "Esse método é 10x melhor do que [conselho comum].", "format": "Carrossel"},
+        {"text": "7 maneiras de ganhar mais ____", "format": "Carrossel"},
+        {"text": "Meus 5 ____ favoritos", "format": "Carrossel / Reels"},
+        {"text": "Top 3 ____ que vocês estão amando", "format": "Carrossel"},
+        {"text": "Minhas 5 melhores dicas para ____", "format": "Carrossel"},
+        {"text": "5 ____ indispensáveis", "format": "Carrossel"},
+        {"text": "7 coisas que você não sabia que precisava de ____", "format": "Carrossel"},
+        {"text": "3 dicas simples de ____ que mudaram meu/minha ____", "format": "Reels"},
+        {"text": "5 ____ que estão custando caro para você.", "format": "Carrossel"},
+        {"text": "3 dicas comprovadas para ____.", "format": "Carrossel"},
+        {"text": "Cuidado com essas três coisas...", "format": "Reels / Carrossel"},
+        {"text": "3 razões pelas quais você deveria ____", "format": "Carrossel"},
+        {"text": "7 fatos desmistificadores sobre ____", "format": "Carrossel"},
+        {"text": "5 coisas que eu faria se estivesse começando de novo.", "format": "Carrossel (Storytelling)"},
+        {"text": "Cinco ____ que você pode fazer agora mesmo para melhorar ____", "format": "Carrossel"},
+        {"text": "Três coisas that made ____ mais fácil.", "format": "Reels"},
+        {"text": "3 dicas para resolver [isso]", "format": "Carrossel"},
+        {"text": "3 razões por que [isso]", "format": "Carrossel"},
+        {"text": "3 coisas para [fazer isso]", "format": "Carrossel / Reels"},
+        {"text": "Dicas essenciais para [alcançar isso] sem [isso]", "format": "Carrossel"},
+        {"text": "3 estratégias para [alcançar isso]", "format": "Carrossel"},
+        {"text": "5 coisas para [resolver isso]", "format": "Carrossel"},
+        {"text": "5 ideias para [resolver este problema]", "format": "Carrossel"},
+        {"text": "5 maneiras de [fazer isso]", "format": "Carrossel"},
+        {"text": "7 tipos de [coisas do nicho]", "format": "Carrossel"},
+        {"text": "3 dicas para [fazer isso]", "format": "Carrossel"},
+        {"text": "Truque fácil para [resolver isso] em 3 passos", "format": "Reels / Carrossel"},
+        {"text": "10 coisas que você precisa saber [sobre este tópico]", "format": "Carrossel"},
+        {"text": "7 passos para ir de [isso] para [isso]", "format": "Carrossel"},
+        {"text": "O que fazer e o que não fazer", "format": "Carrossel (Comparativo)"},
+        {"text": "Os 4 piores ____ (e 4 alternativas melhores).", "format": "Carrossel"},
+    ],
+    "Storytelling e Experiência Pessoal": [
+        {"text": "Eu estava travado até descobrir isso...", "format": "Reels (Voz sobreposta)"},
+        {"text": "O momento que mudou tudo para mim foi...", "format": "Reels (Voz sobreposta)"},
+        {"text": "Aqui está o que ninguém me contou quando comecei...", "format": "Carrossel"},
+        {"text": "Esse único erro quase me custou [resultado].", "format": "Reels (Storytelling)"},
+        {"text": "Eu tentei de tudo... até encontrar o que realmente funcionou.", "format": "Reels"},
+        {"text": "Eu finalmente cedi...", "format": "Post Estático (Texto)"},
+        {"text": "Eu estava errado(a)...", "format": "Post Estático (Texto)"},
+        {"text": "Erros que cometi quando ____", "format": "Carrossel"},
+        {"text": "Eu tenho uma confissão a fazer...", "format": "Post Estático / Reels"},
+        {"text": "Algo que aprendi recentemente...", "format": "Carrossel"},
+        {"text": "Se eu pudesse voltar no tempo, esta é a única coisa que eu diria a mim mesmo(a).", "format": "Reels"},
+        {"text": "O que aconteceu quando eu ____", "format": "Reels (Storytelling)"},
+        {"text": "Não acredito que estou compartilhando isso...", "format": "Reels"},
+        {"text": "Eu acabei de descobrir...", "format": "Reels"},
+        {"text": "Eu não sabia que você podia...", "format": "Reels"},
+        {"text": "A maior lição que aprendi com [meu nicho]", "format": "Carrossel / Post Estático"},
+        {"text": "Meu cliente obteve [este resultado] fazendo [isso]", "format": "Carrossel (Case)"},
+        {"text": "Eu gostaria que alguém tivesse me dito [isso] antes de [fazer isso]", "format": "Carrossel"},
+        {"text": "Eu fiz [isso] por [x período de tempo] e [isto] foi o que aconteceu", "format": "Reels / Carrossel"},
+        {"text": "Eu parei de fazer [isso] e [isto] foi o que aconteceu", "format": "Reels / Carrossel"},
+        {"text": "Como meu cliente parou de [ter este problema]", "format": "Carrossel (Case)"},
+        {"text": "O dia em que eu [falhei] me ensinou [lição].", "format": "Reels / Post Estático"},
+        {"text": "Minha jornada de [ponto A] para [ponto B] não foi fácil.", "format": "Carrossel / Reels"},
+    ],
+    "Construção de Confiança e Relatabilidade": [
+        {"text": "Eu costumava acreditar em [mito], mas aqui está o que aprendi...", "format": "Carrossel"},
+        {"text": "Você não está sozinho se sente isso...", "format": "Post Estático"},
+        {"text": "Já sentiu [frustração comum]? Você não está louco.", "format": "Post Estático"},
+        {"text": "Foi exatamente assim que superei [luta específica].", "format": "Reels"},
+        {"text": "Apenas ____ vão entender isso.", "format": "Reels (POV)"},
+        {"text": "Isso soa como você?", "format": "Post Estático / Carrossel"},
+        {"text": "Você não ama quando ____", "format": "Reels"},
+        {"text": "Ok, eu sei o que você está pensando...", "format": "Reels (Falando p/ câmera)"},
+        {"text": "Abaixe um dedo se você já...", "format": "Reels (Trend)"},
+        {"text": "“Eu odeio ter que fazer isso” [responda a esse ponto de dor na legenda]", "format": "Post Estático"},
+        {"text": "Um lembrete gentil para quem está [sentindo X].", "format": "Post Estático"},
+        {"text": "Sua timeline vs. a minha timeline.", "format": "Reels (Humor)"},
+    ],
+    "Mitos, Segredos e Revelações": [
+        {"text": "Aqui está a verdade que eu gostaria que alguém tivesse me contado antes.", "format": "Reels"},
+        {"text": "Você nunca vai adivinhar o que fez a diferença.", "format": "Reels"},
+        {"text": "Aqui está o que você estava perdendo o tempo todo...", "format": "Carrossel"},
+        {"text": "Eu tenho guardado um segredo...", "format": "Reels"},
+        {"text": "MITO: ____", "format": "Carrossel (Mito vs. Fato)"},
+        {"text": "O que seu/sua ____ gostaria que você soubesse.", "format": "Carrossel"},
+        {"text": "Eu não ia compartilhar isso, mas...", "format": "Reels"},
+        {"text": "Vou lhe contar um segredinho.", "format": "Reels"},
+        {"text": "Aqui está a verdade sobre ____", "format": "Carrossel"},
+        {"text": "O que seu/sua _____ não está lhe dizendo.", "format": "Reels / Carrossel"},
+        {"text": "O/A ____ que ninguém está falando sobre.", "format": "Carrossel"},
+        {"text": "Verdadeiro ou falso...", "format": "Carrossel"},
+        {"text": "A verdade sobre [este tópico]", "format": "Carrossel"},
+        {"text": "O segredo para [isso]", "format": "Reels"},
+        {"text": "O que não te contam sobre [este tópico]", "format": "Carrossel"},
+        {"text": "A verdade sobre [meu nicho]", "format": "Post Estático"},
+        {"text": "A verdade sobre [isso]", "format": "Carrossel"},
+        {"text": "A verdade sobre encontrar [isso]", "format": "Post Estático"},
+        {"text": "O segredo para [este tópico suculento]", "format": "Reels"},
+        {"text": "Como aceitar que [esta verdade] é importante", "format": "Post Estático"},
+        {"text": "A verdade sobre [não fazer isso]", "format": "Carrossel"},
+        {"text": "Ninguém mais vai te dizer [isso]", "format": "Reels"},
+        {"text": "A [ferramenta/método] que 99% das pessoas ignora.", "format": "Reels"},
+        {"text": "O hack nº 1 de [nicho] que parece bom, mas é ruim.", "format": "Carrossel"},
+    ],
+    "Desafio e Confronto (Opinião Impopular)": [
+        {"text": "Você não pode mudar minha opinião ____ (afirme uma crença forte).", "format": "Post Estático"},
+        {"text": "Você está fazendo isso tudo errado.", "format": "Reels (Confronto)"},
+        {"text": "Opinião impopular: ____", "format": "Post Estático / Reels"},
+        {"text": "Você tem feito ____ errado.", "format": "Reels / Carrossel"},
+        {"text": "Não cometa esses erros.", "format": "Carrossel"},
+        {"text": "Pare de usar...", "format": "Reels"},
+        {"text": "Não se deixe enganar por...", "format": "Carrossel"},
+        {"text": "Pare...", "format": "Reels"},
+        {"text": "A razão pela qual você não está [alcançando isso] é porque você está fazendo [isso errado]", "format": "Carrossel"},
+        {"text": "O maior erro [é este], eis o porquê", "format": "Reels"},
+        {"text": "Erros a evitar ao [fazer isso]", "format": "Carrossel"},
+        {"text": "A razão pela qual [isso é ruim] e como consertar", "format": "Carrossel"},
+        {"text": "Opinião impopular [sobre isso]", "format": "Post Estático"},
+        {"text": "Pare de fazer [isso errado], aqui está minha estratégia", "format": "Carrossel"},
+        {"text": "Por que focar [nisso] é errado", "format": "Post Estático"},
+        {"text": "Coisas que você não deveria fazer se quer [isso]", "format": "Carrossel"},
+        {"text": "Por que eu [não acredito nisso]", "format": "Post Estático"},
+        {"text": "Por que eu não acho que [isso] é importante", "format": "Post Estático"},
+        {"text": "O [conselho popular] é um lixo. Faça isso no lugar.", "format": "Reels"},
+        {"text": "Estou cansado de ver pessoas fazendo [erro comum].", "format": "Reels"},
+    ],
+    "Cenários e 'Ponto de Vista' (POV)": [
+        {"text": "O que seu/sua ____ diz sobre você.", "format": "Carrossel"},
+        {"text": "POV: Você decidiu levar [isso] a sério e agora você tem [este resultado]", "format": "Reels"},
+        {"text": "POV: Você finally [decidiu fazer isso] e agora [você tem isso]", "format": "Reels"},
+        {"text": "POV: Você [está fazendo isso] e se sente [assim]", "format": "Reels"},
+        {"text": "POV: Você [está alcançando isso] e só levou [este processo ou período]", "format": "Reels"},
+        {"text": "POV: Quando você finally parou de acreditar [nisso] e agora você [alcançou isso]", "format": "Reels"},
+        {"text": "POV: Aquele momento em que você [alcançou isso] e agora você comemora [isso]", "format": "Reels"},
+        {"text": "POV: Você finally [está fazendo isso] e se sente [assim]", "format": "Reels"},
+        {"text": "POV: Você decidiu [fazer isso] para que possa [fazer isso no seu tempo livre]", "format": "Reels"},
+        {"text": "POV: Você não contratou [serviço] e agora [resultado ruim].", "format": "Reels (Humor/Alerta)"},
+        {"text": "POV: Você contratou [serviço] e agora [resultado bom].", "format": "Reels (Desejo)"},
+    ],
+    "Resultados e Transformação": [
+        {"text": "Uma única coisa mudou minha vida.", "format": "Reels (Storytelling)"},
+        {"text": "Como eu fui de ____ para ____", "format": "Reels / Carrossel"},
+        {"text": "Como eu [consegui isso] e parei de [fazer isso]", "format": "Carrossel"},
+        {"text": "Eu consigo alcançar [isso] todo santo dia usando meu [método]", "format": "Reels"},
+        {"text": "Como ir de [isso] para [isso]", "format": "Carrossel (Tutorial)"},
+        {"text": "Eu faço [isso] para conseguir [isso]", "format": "Reels"},
+        {"text": "Como eu alcancei [isso]", "format": "Carrossel"},
+        {"text": "Eu obtenho [este resultado] todo dia, eis como", "format": "Reels"},
+        {"text": "Eu descobri como [fazer isso] sem [fazer isso]", "format": "Carrossel"},
+        {"text": "Como ter [isso] de forma consistente", "format": "Carrossel"},
+        {"text": "A estratégia por trás [deste resultado]", "format": "Carrossel"},
+        {"text": "Como eu consigo isso facilmente com [este segredinho]", "format": "Reels"},
+        {"text": "Como [fazer isso] nos próximos 30 dias", "format": "Carrossel"},
+        {"text": "Eu obtenho [este resultado] a cada [período de tempo]", "format": "Reels"},
+        {"text": "Como se tornar [isso] no próximo [período de tempo]", "format": "Carrossel"},
+        {"text": "O antes e depois de [aplicar o método].", "format": "Reels / Carrossel"},
+        {"text": "De [problema] a [solução] em X dias.", "format": "Reels"},
+    ],
+    "Chamadas (CTAs) e Alertas": [
+        {"text": "Este é o seu sinal para ____", "format": "Post Estático / Reels"},
+        {"text": "Assista até o final!", "format": "Reels"},
+        {"text": "Chamando todos os ____", "format": "Post Estático"},
+        {"text": "Este é o seu lembrete para ____", "format": "Post Estático"},
+        {"text": "Pare de rolar!", "format": "Reels"},
+        {"text": "Notícia de última hora!", "format": "Post Estático"},
+        {"text": "Lembrete:", "format": "Post Estático"},
+        {"text": "Qual deles é você A: ____ ou B: ____", "format": "Carrossel (Interativo)"},
+        {"text": "Alerta de nova tendência!", "format": "Reels / Post Estático"},
+        {"text": "Marque um amigo que precisa ver isso.", "format": "Qualquer Formato"},
+        {"text": "Dica profissional: ___", "format": "Post Estático"},
+        {"text": "PSA (Aviso de Utilidade Pública): ____", "format": "Post Estático / Reels"},
+        {"text": "Sinais de que [você precisa x]", "format": "Carrossel / Reels"},
+        {"text": "Lembrete: [isso é possível] se você focar [nisso]", "format": "Post Estático"},
+        {"text": "Lembrete: Você não precisa ser [isso] para conseguir [isso]", "format": "Post Estático"},
+        {"text": "A coisa mais importante a fazer agora é [isso] ou [na legenda]", "format": "Post Estático"},
+        {"text": "Não faça mais nada até ver isso.", "format": "Reels"},
         {"text": "Salve este post para mais tarde.", "format": "Qualquer Formato"},
     ]
 }
@@ -20,7 +263,16 @@ HOOK_DATABASE = {
 FORMULAS_CONTEXT = """
 **Princípios da Fórmula 1 (Engajamento):**
 - **Perguntas de Curiosidade:** Criar uma lacuna de conhecimento (ex: "Você sabia que...").
-... (resto das fórmulas) ...
+- **Declarações Polêmicas:** Desafiar a sabedoria convencional (ex: "Pare de usar hashtags agora!").
+- **Histórias Inacabadas (Efeito Zeigarnik):** Começar uma história intrigante (ex: "Eu perdi 10 mil seguidores quando...").
+- **Promessas de Benefícios Claros:** Oferecer valor imediato (ex: "Aprenda a criar posts virais em 3 passos.").
+- **Gatilhos Mentais:** Usar Escassez, Autoridade, Prova Social, Urgência.
+- **Interação:** Fazer perguntas diretas e CTAs claros.
+
+**Princípios da Fórmula 2 (Psicologia e Neurociência):**
+- **Dopamina (Novidade):** Prometer uma recompensa, surpresa ou informação valiosa.
+- **Dissonância Cognitiva (Surpresa):** Questionar crenças existentes para forçar o cérebro a buscar uma resolução (ex: "Seu método de [X] está te impedindo de [Y]").
+- **Identificação (Relatabilidade):** Usar cenários com os quais o público se identifica (ex: "Quando você tenta [ação frustrante]...").
 - **Tutorial Rápido (Antes e Depois):** Mostrar o resultado desejado logo nos primeiros segundos para provar o valor.
 """
 
@@ -48,14 +300,13 @@ model_pro, model_flash = load_models()
 if not model_pro or not model_flash:
     st.stop()
 
-# NOVO: Copiamos o Parser Robusto do Analisador para este arquivo
+# --- Parser Robusto (copiado do Analisador) ---
 def extrair_bloco_robusto(texto_completo, bloco_atual, proximo_bloco=None):
     if texto_completo is None: return None
     start_tag = f"[---{bloco_atual}_START---]"
     if proximo_bloco:
         end_tag_pattern = f"[---{proximo_bloco}_START---]"
     else:
-        # Se for o último bloco, procuramos seu próprio _END
         end_tag_pattern = f"[---{bloco_atual}_END---]"
     try:
         start_index = texto_completo.index(start_tag) + len(start_tag)
@@ -72,32 +323,36 @@ def extrair_bloco_robusto(texto_completo, bloco_atual, proximo_bloco=None):
 
 # --- FUNÇÕES DA IA ---
 
-# MUDANÇA: Prompt do Criador (Tab 2) agora usa as tags [---BLOCO---]
+# MUDANÇA: Prompt do Criador (Tab 2) agora define "Gancho" e pede "Proposta de Conteúdo"
 def create_new_hook(tema, principios, model):
     prompt = f"""
     **Contexto:** Você é um copywriter de elite. Seu cérebro foi treinado com os seguintes princípios de psicologia de ganchos virais:
     {FORMULAS_CONTEXT}
 
-    **Sua Tarefa:**
-    Com base **apenas** nos princípios de "{', '.join(principios)}", crie **3 ganchos (títulos) novos e originais** para um post sobre o tema: "{tema}".
+    **Definição de "Gancho":** Um "gancho" (hook) NÃO é um título. É a **primeira frase curta e impactante** de um post, feita para parar a rolagem. Deve ser provocativo, curioso ou chocante. Máximo de 10-12 palavras.
+    * Exemplo Ruim (Título): "A Importância dos Laudos Técnicos na Engenharia"
+    * Exemplo Bom (Gancho): "Seu laudo técnico é inútil por causa disso." ou "Pare de pedir laudos técnicos agora."
 
-    **Para cada gancho gerado,** explique brevemente a **"Proposta de Conteúdo"** (o que desenvolver no post para que o gancho faça sentido).
+    **Sua Tarefa:**
+    Com base **apenas** nos princípios de "{', '.join(principios)}", crie **3 GANCHOS curtos e impactantes** para um post sobre o tema: "{tema}".
+
+    **Para cada gancho,** explique a **"Proposta de Conteúdo"** (o que desenvolver no post para que o gancho faça sentido).
 
     **Formato de Resposta (OBRIGATÓRIO):**
     Use este formato de bloco com tags OBRIGATORIAMENTE para CADA gancho:
 
     [---GANCHO_1_START---]
-    **Gancho:** [Seu primeiro gancho]
+    **Gancho:** [Seu primeiro gancho *curto e impactante*]
     **Proposta de Conteúdo:** [Explicação breve do que abordar no post, qual o ângulo]
     [---GANCHO_1_END---]
 
     [---GANCHO_2_START---]
-    **Gancho:** [Seu segundo gancho]
+    **Gancho:** [Seu segundo gancho *curto e impactante*]
     **Proposta de Conteúdo:** [Explicação breve...]
     [---GANCHO_2_END---]
 
     [---GANCHO_3_START---]
-    **Gancho:** [Seu terceiro gancho]
+    **Gancho:** [Seu terceiro gancho *curto e impactante*]
     **Proposta de Conteúdo:** [Explicação breve...]
     [---GANCHO_3_END---]
     """
@@ -108,7 +363,7 @@ def create_new_hook(tema, principios, model):
         st.error(f"Erro na chamada à API: {e}")
         return ""
 
-# Função do Adaptador (Tab 3) - sem mudanças, já era robusta
+# Função do Adaptador (Tab 3) - ajustada para novo BD
 def adapt_hook(tema, model):
     database_string = ""
     for category, hooks in HOOK_DATABASE.items():
@@ -117,7 +372,25 @@ def adapt_hook(tema, model):
             database_string += f"- {hook_obj['text']}\n"
         database_string += "\n"
     prompt = f"""
-    ... (prompt do adaptador, sem mudanças) ...
+    Você é um assistente de IA especialista em marketing. Sua tarefa é encontrar o melhor gancho em um banco de dados e adaptá-lo para um novo tema.
+
+    **1. Tema Alvo:**
+    "{tema}"
+
+    **2. Banco de Dados de Ganchos (Repositório):**
+    {database_string}
+
+    **Sua Tarefa (em 3 passos):**
+    1.  **Análise:** Leia o "Tema Alvo" e entenda sua intenção (é um problema? uma dica? uma novidade?).
+    2.  **Seleção:** Vasculhe o "Banco de Dados" e escolha o **UM** gancho (hook) que melhor se encaixa na intenção do tema.
+    3.  **Adaptação:** Reescreva o gancho escolhido para que ele se encaixe perfeitamente no "{tema}". Substitua placeholders como [isso] ou ____.
+
+    **Formato da Resposta:**
+    **Gancho Original (da Categoria [Nome da Categoria]):**
+    [O gancho que você escolheu]
+
+    **Gancho Adaptado para o Tema:**
+    [O novo gancho reescrito]
     """
     try:
         response = model.generate_content(prompt)
@@ -130,7 +403,7 @@ def adapt_hook(tema, model):
 
 tab1, tab2, tab3 = st.tabs(["🗂️ Navegador do Repositório", "🧙‍♂️ Criador de Ganchos (IA)", "🔄 Adaptador de Ganchos (IA)"])
 
-# --- Aba 1: Navegador do Repositório (sem mudanças) ---
+# --- Aba 1: Navegador do Repositório (ATUALIZADO) ---
 with tab1:
     st.subheader("Explore o Repositório de Ganchos")
     st.markdown("Navegue pelas 11 categorias de ganchos comprovados. Use-os como inspiração ou copie-os diretamente.")
@@ -149,7 +422,7 @@ with tab1:
                 if st.button("Copiar", key=hook['text']):
                     st.toast(f"'{hook['text']}' copiado!")
 
-# --- Aba 2: Criador de Ganchos (IA) (INTERFACE ATUALIZADA) ---
+# --- Aba 2: Criador de Ganchos (IA) (ATUALIZADO) ---
 with tab2:
     st.subheader("Crie Ganchos Novos com IA")
     st.markdown("Use a IA para gerar ganchos originais com base nos princípios psicológicos das Fórmulas 1 e 2.")
@@ -178,6 +451,11 @@ with tab2:
         key="model_criador"
     )
     
+    if 'ganchos_gerados_raw' in st.session_state:
+        # Limpa se os inputs mudarem
+        if st.session_state.get('last_tema_criador') != tema_criador:
+            st.session_state.ganchos_gerados_raw = None
+    
     if st.button("Gerar Novos Ganchos"):
         if not tema_criador or not principios_escolhidos:
             st.warning("Por favor, preencha o tema e escolha pelo menos um princípio.")
@@ -185,12 +463,13 @@ with tab2:
             model_to_use = model_pro if "Pro" in model_choice_criador else model_flash
             with st.spinner(f"Gerando ganchos com base em '{', '.join(principios_escolhidos)}'..."):
                 ganchos_gerados_raw = create_new_hook(tema_criador, principios_escolhidos, model_to_use)
-                st.session_state.ganchos_gerados_raw = ganchos_gerados_raw # Salva para o debug
+                st.session_state.ganchos_gerados_raw = ganchos_gerados_raw
+                st.session_state.last_tema_criador = tema_criador # Salva o último tema
 
-    # MUDANÇA: Lógica de exibição agora usa o parser
     if 'ganchos_gerados_raw' in st.session_state and st.session_state.ganchos_gerados_raw:
         raw_text = st.session_state.ganchos_gerados_raw
         
+        # Extrai os blocos com o parser robusto
         gancho_1 = extrair_bloco_robusto(raw_text, 'GANCHO_1', 'GANCHO_2')
         gancho_2 = extrair_bloco_robusto(raw_text, 'GANCHO_2', 'GANCHO_3')
         gancho_3 = extrair_bloco_robusto(raw_text, 'GANCHO_3')
@@ -207,7 +486,6 @@ with tab2:
         if gancho_3:
             st.markdown(gancho_3)
 
-        # Debugger opcional
         if st.checkbox("Mostrar resposta bruta (Criador)", key="debug_criador"):
             st.text(raw_text or "Nenhuma resposta foi gravada.")
 
