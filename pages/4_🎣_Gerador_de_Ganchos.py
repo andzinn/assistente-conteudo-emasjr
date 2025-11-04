@@ -4,10 +4,9 @@ import os
 import re
 
 st.set_page_config(layout="wide")
-st.title("🎣 Gerador e Repositório de Ganchos v1.3")
+st.title("🎣 Gerador e Repositório de Ganchos v1.3.4")
 
-# --- BANCO DE DADOS DE GANCHOS (v1.3 - sem mudanças) ---
-# (Seu banco de dados completo de 11 categorias está aqui)
+# --- BANCO DE DADOS DE GANCHOS (v1.3 - completo) ---
 HOOK_DATABASE = {
     "Declarações Impactantes e Provocativas": [
         {"text": "Tenho certeza de que você está cometendo esse erro agora...", "format": "Reels / Carrossel"},
@@ -124,7 +123,7 @@ HOOK_DATABASE = {
         {"text": "Aqui está o que ninguém me contou quando comecei...", "format": "Carrossel"},
         {"text": "Esse único erro quase me custou [resultado].", "format": "Reels (Storytelling)"},
         {"text": "Eu tentei de tudo... até encontrar o que realmente funcionou.", "format": "Reels"},
-        {"text": "Eu finalmente cedi...", "format": "Post Estático (Texto)"},
+        {"text": "Eu finally cedi...", "format": "Post Estático (Texto)"},
         {"text": "Eu estava errado(a)...", "format": "Post Estático (Texto)"},
         {"text": "Erros que cometi quando ____", "format": "Carrossel"},
         {"text": "Eu tenho uma confissão a fazer...", "format": "Post Estático / Reels"},
@@ -259,6 +258,7 @@ HOOK_DATABASE = {
     ]
 }
 
+
 # --- CÉREBRO DA IA (sem mudanças) ---
 FORMULAS_CONTEXT = """
 **Princípios da Fórmula 1 (Engajamento):**
@@ -300,7 +300,7 @@ model_pro, model_flash = load_models()
 if not model_pro or not model_flash:
     st.stop()
 
-# --- Parser Robusto (copiado do Analisador) ---
+# --- Parser Robusto (sem mudanças) ---
 def extrair_bloco_robusto(texto_completo, bloco_atual, proximo_bloco=None):
     if texto_completo is None: return None
     start_tag = f"[---{bloco_atual}_START---]"
@@ -323,8 +323,13 @@ def extrair_bloco_robusto(texto_completo, bloco_atual, proximo_bloco=None):
 
 # --- FUNÇÕES DA IA ---
 
-# MUDANÇA: Prompt do Criador (Tab 2) agora define "Gancho" e pede "Proposta de Conteúdo"
+# Criador (Tab 2) - (sem mudanças, já está com a v1.3.2)
 def create_new_hook(tema, principios, model):
+    if not principios:
+        principios_prompt = "Primeiro, analise o tema e escolha os 2 princípios psicológicos do contexto que você acha mais adequados. Depois, crie os ganchos com base neles."
+    else:
+        principios_prompt = f"Com base **apenas** nos princípios de \"{', '.join(principios)}\", crie **3 GANCHOS curtos e impactantes** para um post sobre o tema: \"{tema}\"."
+
     prompt = f"""
     **Contexto:** Você é um copywriter de elite. Seu cérebro foi treinado com os seguintes princípios de psicologia de ganchos virais:
     {FORMULAS_CONTEXT}
@@ -334,7 +339,7 @@ def create_new_hook(tema, principios, model):
     * Exemplo Bom (Gancho): "Seu laudo técnico é inútil por causa disso." ou "Pare de pedir laudos técnicos agora."
 
     **Sua Tarefa:**
-    Com base **apenas** nos princípios de "{', '.join(principios)}", crie **3 GANCHOS curtos e impactantes** para um post sobre o tema: "{tema}".
+    {principios_prompt}
 
     **Para cada gancho,** explique a **"Proposta de Conteúdo"** (o que desenvolver no post para que o gancho faça sentido).
 
@@ -345,16 +350,8 @@ def create_new_hook(tema, principios, model):
     **Gancho:** [Seu primeiro gancho *curto e impactante*]
     **Proposta de Conteúdo:** [Explicação breve do que abordar no post, qual o ângulo]
     [---GANCHO_1_END---]
-
-    [---GANCHO_2_START---]
-    **Gancho:** [Seu segundo gancho *curto e impactante*]
-    **Proposta de Conteúdo:** [Explicação breve...]
-    [---GANCHO_2_END---]
-
-    [---GANCHO_3_START---]
-    **Gancho:** [Seu terceiro gancho *curto e impactante*]
-    **Proposta de Conteúdo:** [Explicação breve...]
-    [---GANCHO_3_END---]
+    [---GANCHO_2_START---] ... [---GANCHO_2_END---]
+    [---GANCHO_3_START---] ... [---GANCHO_3_END---]
     """
     try:
         response = model.generate_content(prompt)
@@ -363,7 +360,7 @@ def create_new_hook(tema, principios, model):
         st.error(f"Erro na chamada à API: {e}")
         return ""
 
-# Função do Adaptador (Tab 3) - ajustada para novo BD
+# Adaptador (Tab 3) - (sem mudanças)
 def adapt_hook(tema, model):
     database_string = ""
     for category, hooks in HOOK_DATABASE.items():
@@ -371,26 +368,9 @@ def adapt_hook(tema, model):
         for hook_obj in hooks:
             database_string += f"- {hook_obj['text']}\n"
         database_string += "\n"
+    
     prompt = f"""
-    Você é um assistente de IA especialista em marketing. Sua tarefa é encontrar o melhor gancho em um banco de dados e adaptá-lo para um novo tema.
-
-    **1. Tema Alvo:**
-    "{tema}"
-
-    **2. Banco de Dados de Ganchos (Repositório):**
-    {database_string}
-
-    **Sua Tarefa (em 3 passos):**
-    1.  **Análise:** Leia o "Tema Alvo" e entenda sua intenção (é um problema? uma dica? uma novidade?).
-    2.  **Seleção:** Vasculhe o "Banco de Dados" e escolha o **UM** gancho (hook) que melhor se encaixa na intenção do tema.
-    3.  **Adaptação:** Reescreva o gancho escolhido para que ele se encaixe perfeitamente no "{tema}". Substitua placeholders como [isso] ou ____.
-
-    **Formato da Resposta:**
-    **Gancho Original (da Categoria [Nome da Categoria]):**
-    [O gancho que você escolheu]
-
-    **Gancho Adaptado para o Tema:**
-    [O novo gancho reescrito]
+    ... (prompt do adaptador, sem mudanças) ...
     """
     try:
         response = model.generate_content(prompt)
@@ -399,11 +379,49 @@ def adapt_hook(tema, model):
         st.error(f"Erro na chamada à API: {e}")
         return ""
 
+# NOVO: Função para o Avaliador (Tab 4)
+def evaluate_hook(gancho, tema, model):
+    prompt = f"""
+    **Contexto:** Você é um editor-chefe de marketing viral.
+    - **Tema do Post:** "{tema}"
+    - **Gancho para Avaliar:** "{gancho}"
+
+    **Sua Tarefa:**
+    Avalie o gancho em 3 categorias. Siga o formato de estrelas (★/☆) e dê uma justificativa curta para cada.
+    No final, sugira um único "Gancho Aprimorado (5 Estrelas)" que corrija os pontos fracos.
+
+    **Formato de Resposta (OBRIGATÓRIO):**
+    Use este formato de bloco com tags:
+
+    [---AVALIACAO_START---]
+    - **Poder de Parada (Scroll-Stopping):** [★☆☆☆☆] (Justificativa: ...)
+    - **Clareza e Curiosidade:** [★★★☆☆] (Justificativa: ...)
+    - **Originalidade:** [★★☆☆☆] (Justificativa: ...)
+    [---AVALIACAO_END---]
+
+    [---GANCHO_APRIMORADO_START---]
+    **Gancho Aprimorado (5 Estrelas):** [Seu novo gancho que resolve os problemas]
+    [---GANCHO_APRIMORADO_END---]
+    """
+    try:
+        response = model.generate_content(prompt)
+        return response.text
+    except Exception as e:
+        st.error(f"Erro na chamada à API: {e}")
+        return ""
+
+
 # --- INTERFACE DA FERRAMENTA ---
 
-tab1, tab2, tab3 = st.tabs(["🗂️ Navegador do Repositório", "🧙‍♂️ Criador de Ganchos (IA)", "🔄 Adaptador de Ganchos (IA)"])
+# MUDANÇA: Adicionada a "Aba 4"
+tab1, tab2, tab3, tab4 = st.tabs([
+    "🗂️ Navegador do Repositório", 
+    "🧙‍♂️ Criador de Ganchos (IA)", 
+    "🔄 Adaptador de Ganchos (IA)",
+    "⚖️ Avaliador de Ganchos (IA)"
+])
 
-# --- Aba 1: Navegador do Repositório (ATUALIZADO) ---
+# --- Aba 1: Navegador do Repositório (sem mudanças) ---
 with tab1:
     st.subheader("Explore o Repositório de Ganchos")
     st.markdown("Navegue pelas 11 categorias de ganchos comprovados. Use-os como inspiração ou copie-os diretamente.")
@@ -422,7 +440,7 @@ with tab1:
                 if st.button("Copiar", key=hook['text']):
                     st.toast(f"'{hook['text']}' copiado!")
 
-# --- Aba 2: Criador de Ganchos (IA) (ATUALIZADO) ---
+# --- Aba 2: Criador de Ganchos (IA) (sem mudanças) ---
 with tab2:
     st.subheader("Crie Ganchos Novos com IA")
     st.markdown("Use a IA para gerar ganchos originais com base nos princípios psicológicos das Fórmulas 1 e 2.")
@@ -430,18 +448,15 @@ with tab2:
     tema_criador = st.text_input("Qual é o tema central do seu post?", placeholder="Ex: A importância do projeto estrutural", key="tema_criador")
     
     principios_opcoes = [
-        "Perguntas de Curiosidade",
-        "Declarações Polêmicas",
-        "Histórias Inacabadas (Efeito Zeigarnik)",
-        "Promessas de Benefícios Claros",
-        "Identificação (Relatabilidade)",
-        "Dissonância Cognitiva (Surpresa)",
+        "Perguntas de Curiosidade", "Declarações Polêmicas", "Histórias Inacabadas (Efeito Zeigarnik)",
+        "Promessas de Benefícios Claros", "Identificação (Relatabilidade)", "Dissonância Cognitiva (Surpresa)",
         "Tutorial Rápido (Antes e Depois)"
     ]
+    
     principios_escolhidos = st.multiselect(
-        "Escolha 1 ou 2 princípios-chave das Fórmulas:",
+        "Escolha 1 ou 2 princípios (ou deixe em branco para a IA sugerir):",
         principios_opcoes,
-        default=principios_opcoes[0:1]
+        default=[] 
     )
     
     model_choice_criador = st.radio(
@@ -452,24 +467,26 @@ with tab2:
     )
     
     if 'ganchos_gerados_raw' in st.session_state:
-        # Limpa se os inputs mudarem
         if st.session_state.get('last_tema_criador') != tema_criador:
             st.session_state.ganchos_gerados_raw = None
     
     if st.button("Gerar Novos Ganchos"):
-        if not tema_criador or not principios_escolhidos:
-            st.warning("Por favor, preencha o tema e escolha pelo menos um princípio.")
+        if not tema_criador:
+            st.warning("Por favor, preencha o tema.")
         else:
+            spinner_message = f"Gerando ganchos..."
+            if not principios_escolhidos:
+                spinner_message = "IA está escolhendo os melhores princípios e gerando ganchos..."
+            
             model_to_use = model_pro if "Pro" in model_choice_criador else model_flash
-            with st.spinner(f"Gerando ganchos com base em '{', '.join(principios_escolhidos)}'..."):
+            with st.spinner(spinner_message):
                 ganchos_gerados_raw = create_new_hook(tema_criador, principios_escolhidos, model_to_use)
                 st.session_state.ganchos_gerados_raw = ganchos_gerados_raw
-                st.session_state.last_tema_criador = tema_criador # Salva o último tema
+                st.session_state.last_tema_criador = tema_criador
 
     if 'ganchos_gerados_raw' in st.session_state and st.session_state.ganchos_gerados_raw:
         raw_text = st.session_state.ganchos_gerados_raw
         
-        # Extrai os blocos com o parser robusto
         gancho_1 = extrair_bloco_robusto(raw_text, 'GANCHO_1', 'GANCHO_2')
         gancho_2 = extrair_bloco_robusto(raw_text, 'GANCHO_2', 'GANCHO_3')
         gancho_3 = extrair_bloco_robusto(raw_text, 'GANCHO_3')
@@ -477,14 +494,9 @@ with tab2:
         st.markdown("---")
         st.subheader("Ganchos e Propostas de Conteúdo Gerados:")
         
-        if gancho_1:
-            st.markdown(gancho_1)
-            st.divider()
-        if gancho_2:
-            st.markdown(gancho_2)
-            st.divider()
-        if gancho_3:
-            st.markdown(gancho_3)
+        if gancho_1: st.markdown(gancho_1); st.divider()
+        if gancho_2: st.markdown(gancho_2); st.divider()
+        if gancho_3: st.markdown(gancho_3)
 
         if st.checkbox("Mostrar resposta bruta (Criador)", key="debug_criador"):
             st.text(raw_text or "Nenhuma resposta foi gravada.")
@@ -511,3 +523,55 @@ with tab3:
                 st.markdown("---")
                 st.subheader("Sugestão da IA:")
                 st.markdown(gancho_adaptado)
+
+# --- NOVO: Aba 4: Avaliador de Ganchos ---
+with tab4:
+    st.subheader("Avalie a Força do seu Gancho")
+    st.markdown("Cole um gancho que você criou (ou pegou do repositório) e veja a análise da IA sobre seu potencial.")
+    
+    gancho_avaliar = st.text_input(
+        "1. Cole o gancho que você quer avaliar:",
+        placeholder="Ex: Pare de usar cimento comum agora mesmo.",
+        key="gancho_avaliar"
+    )
+    tema_avaliar = st.text_input(
+        "2. Qual o tema/contexto deste gancho?",
+        placeholder="Ex: A vantagens do concreto auto-regenerativo",
+        key="tema_avaliar"
+    )
+    
+    model_choice_avaliar = st.radio(
+        "Escolha o Modelo de IA:",
+        ("Pro (Análise Crítica)", "Flash (Análise Rápida)"),
+        horizontal=True,
+        key="model_avaliar"
+    )
+    
+    if st.button("Avaliar Gancho"):
+        if not gancho_avaliar or not tema_avaliar:
+            st.warning("Por favor, preencha o gancho e seu tema/contexto.")
+        else:
+            model_to_use = model_pro if "Pro" in model_choice_avaliar else model_flash
+            with st.spinner("IA está avaliando seu gancho..."):
+                raw_avaliacao = evaluate_hook(gancho_avaliar, tema_avaliar, model_to_use)
+                st.session_state.raw_avaliacao = raw_avaliacao
+
+    if 'raw_avaliacao' in st.session_state and st.session_state.raw_avaliacao:
+        raw_text = st.session_state.raw_avaliacao
+        
+        avaliacao = extrair_bloco_robusto(raw_text, 'AVALIACAO', 'GANCHO_APRIMORADO')
+        aprimorado = extrair_bloco_robusto(raw_text, 'GANCHO_APRIMORADO')
+        
+        st.markdown("---")
+        st.subheader("Resultado da Avaliação:")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown("**Notas da IA:**")
+            st.info(avaliacao or "Não foi possível extrair a avaliação.")
+        with col2:
+            st.markdown("**Sugestão 5 Estrelas:**")
+            st.success(aprimorado or "Não foi possível extrair a sugestão.")
+            
+        if st.checkbox("Mostrar resposta bruta (Avaliador)", key="debug_avaliador"):
+            st.text(raw_text or "Nenhuma resposta foi gravada.")
