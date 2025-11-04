@@ -4,7 +4,7 @@ import os
 import re
 
 st.set_page_config(layout="wide")
-st.title("🎣 Gerador e Repositório de Ganchos v1.3.4")
+st.title("🎣 Gerador e Repositório de Ganchos v1.3.5")
 
 # --- BANCO DE DADOS DE GANCHOS (v1.3 - completo) ---
 HOOK_DATABASE = {
@@ -143,7 +143,7 @@ HOOK_DATABASE = {
         {"text": "Minha jornada de [ponto A] para [ponto B] não foi fácil.", "format": "Carrossel / Reels"},
     ],
     "Construção de Confiança e Relatabilidade": [
-        {"text": "Eu costumava acreditar em [mito], mas aqui está o que aprendi...", "format": "Carrossel"},
+        {"text": "Eu costumava acreditar em [mito], mas here está o que aprendi...", "format": "Carrossel"},
         {"text": "Você não está sozinho se sente isso...", "format": "Post Estático"},
         {"text": "Já sentiu [frustração comum]? Você não está louco.", "format": "Post Estático"},
         {"text": "Foi exatamente assim que superei [luta específica].", "format": "Reels"},
@@ -258,7 +258,6 @@ HOOK_DATABASE = {
     ]
 }
 
-
 # --- CÉREBRO DA IA (sem mudanças) ---
 FORMULAS_CONTEXT = """
 **Princípios da Fórmula 1 (Engajamento):**
@@ -370,7 +369,25 @@ def adapt_hook(tema, model):
         database_string += "\n"
     
     prompt = f"""
-    ... (prompt do adaptador, sem mudanças) ...
+    Você é um assistente de IA especialista em marketing. Sua tarefa é encontrar o melhor gancho em um banco de dados e adaptá-lo para um novo tema.
+
+    **1. Tema Alvo:**
+    "{tema}"
+
+    **2. Banco de Dados de Ganchos (Repositório):**
+    {database_string}
+
+    **Sua Tarefa (em 3 passos):**
+    1.  **Análise:** Leia o "Tema Alvo" e entenda sua intenção (é um problema? uma dica? uma novidade?).
+    2.  **Seleção:** Vasculhe o "Banco de Dados" e escolha o **UM** gancho (hook) que melhor se encaixa na intenção do tema.
+    3.  **Adaptação:** Reescreva o gancho escolhido para que ele se encaixe perfeitamente no "{tema}". Substitua placeholders como [isso] ou ____.
+
+    **Formato da Resposta:**
+    **Gancho Original (da Categoria [Nome da Categoria]):**
+    [O gancho que você escolheu]
+
+    **Gancho Adaptado para o Tema:**
+    [O novo gancho reescrito]
     """
     try:
         response = model.generate_content(prompt)
@@ -379,16 +396,20 @@ def adapt_hook(tema, model):
         st.error(f"Erro na chamada à API: {e}")
         return ""
 
-# NOVO: Função para o Avaliador (Tab 4)
+# MUDANÇA: Prompt do Avaliador (Tab 4) agora inclui a definição de "Gancho"
 def evaluate_hook(gancho, tema, model):
     prompt = f"""
     **Contexto:** Você é um editor-chefe de marketing viral.
     - **Tema do Post:** "{tema}"
     - **Gancho para Avaliar:** "{gancho}"
 
+    **Definição de "Gancho":** Lembre-se, um "gancho" (hook) NÃO é um título longo. É a **primeira frase curta e impactante** de um post, feita para parar a rolagem. Deve ser provocativo, curioso ou chocante (máx. 10-12 palavras).
+    * Exemplo Ruim (Conceito): "Um post sobre como o EIV é importante para a cidade."
+    * Exemplo Bom (Gancho): "O EIV decide se sua rua vira um caos."
+
     **Sua Tarefa:**
-    Avalie o gancho em 3 categorias. Siga o formato de estrelas (★/☆) e dê uma justificativa curta para cada.
-    No final, sugira um único "Gancho Aprimorado (5 Estrelas)" que corrija os pontos fracos.
+    1.  **Avalie** o gancho em 3 categorias. Siga o formato de estrelas (★/☆) e dê uma justificativa curta.
+    2.  **Aprimore:** Com base na sua análise, escreva um **novo "Gancho Aprimorado (5 Estrelas)"**. Este gancho deve ser CURTO, IMPACTANTE e seguir a definição acima. Não o explique, apenas escreva-o.
 
     **Formato de Resposta (OBRIGATÓRIO):**
     Use este formato de bloco com tags:
@@ -400,7 +421,7 @@ def evaluate_hook(gancho, tema, model):
     [---AVALIACAO_END---]
 
     [---GANCHO_APRIMORADO_START---]
-    **Gancho Aprimorado (5 Estrelas):** [Seu novo gancho que resolve os problemas]
+    **Gancho Aprimorado (5 Estrelas):** [Seu novo gancho CURTO e IMPACTANTE que resolve os problemas]
     [---GANCHO_APRIMORADO_END---]
     """
     try:
@@ -413,7 +434,6 @@ def evaluate_hook(gancho, tema, model):
 
 # --- INTERFACE DA FERRAMENTA ---
 
-# MUDANÇA: Adicionada a "Aba 4"
 tab1, tab2, tab3, tab4 = st.tabs([
     "🗂️ Navegador do Repositório", 
     "🧙‍♂️ Criador de Ganchos (IA)", 
@@ -524,7 +544,7 @@ with tab3:
                 st.subheader("Sugestão da IA:")
                 st.markdown(gancho_adaptado)
 
-# --- NOVO: Aba 4: Avaliador de Ganchos ---
+# --- Aba 4: Avaliador de Ganchos (sem mudanças) ---
 with tab4:
     st.subheader("Avalie a Força do seu Gancho")
     st.markdown("Cole um gancho que você criou (ou pegou do repositório) e veja a análise da IA sobre seu potencial.")
@@ -547,6 +567,11 @@ with tab4:
         key="model_avaliar"
     )
     
+    # Limpa a avaliação antiga se os inputs mudarem
+    if 'raw_avaliacao' in st.session_state:
+        if st.session_state.get('last_gancho_avaliar') != gancho_avaliar:
+            st.session_state.raw_avaliacao = None
+    
     if st.button("Avaliar Gancho"):
         if not gancho_avaliar or not tema_avaliar:
             st.warning("Por favor, preencha o gancho e seu tema/contexto.")
@@ -555,6 +580,7 @@ with tab4:
             with st.spinner("IA está avaliando seu gancho..."):
                 raw_avaliacao = evaluate_hook(gancho_avaliar, tema_avaliar, model_to_use)
                 st.session_state.raw_avaliacao = raw_avaliacao
+                st.session_state.last_gancho_avaliar = gancho_avaliar
 
     if 'raw_avaliacao' in st.session_state and st.session_state.raw_avaliacao:
         raw_text = st.session_state.raw_avaliacao
